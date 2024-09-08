@@ -10,9 +10,9 @@ RUN         apt-get update -y \
             && rm -rf /var/lib/apt/lists/* \
             && useradd -m -d /home/container container \
             && locale-gen en_US.UTF-8 \
-			&& wget https://www.yourkit.com/download/docker/YourKit-JavaProfiler-2024.3-docker.zip -P /tmp/ \
-			&& unzip /tmp/YourKit-JavaProfiler-2024.3-docker.zip -d /usr/local \
-			&& rm /tmp/YourKit-JavaProfiler-2024.3-docker.zip
+            && wget https://www.yourkit.com/download/docker/YourKit-JavaProfiler-2024.3-docker.zip -P /tmp/ \
+            && unzip /tmp/YourKit-JavaProfiler-2024.3-docker.zip -d /usr/local \
+            && rm /tmp/YourKit-JavaProfiler-2024.3-docker.zip
 
 ENV         LC_ALL=en_US.UTF-8
 ENV         LANG=en_US.UTF-8
