@@ -1,27 +1,22 @@
-FROM        shipilev/openjdk:21
+FROM shipilev/openjdk:21
 
-LABEL       author="Lucasmellof" maintainer="contact@lucasmf.co"
-LABEL       org.opencontainers.image.source="https://github.com/lucasmellof/yolks"
-LABEL       org.opencontainers.image.licenses=MIT
+LABEL author="Lucasmellof" maintainer="contact@lucasmf.co"
+LABEL org.opencontainers.image.source="https://github.com/lucasmellof/yolks"
+LABEL org.opencontainers.image.licenses=MIT
 
-RUN         apt-get update -y \
-            && apt-get install -y --no-install-recommends curl ca-certificates openssl git tar sqlite3 fontconfig libfreetype6 libstdc++6 lsof build-essential tzdata iproute2 locales \
-            && apt-get clean \
-            && rm -rf /var/lib/apt/lists/* \
-            && useradd -m -d /home/container container \
-            && locale-gen en_US.UTF-8 \
+RUN apt-get update -y && apt-get install -y --no-install-recommends wget unzip curl ca-certificates openssl git tar sqlite3 fontconfig libfreetype6 libstdc++6 lsof build-essential tzdata iproute2 locales && apt-get clean && rm -rf /var/lib/apt/lists/* && useradd -m -d /home/container container && locale-gen en_US.UTF-8
 
-RUN       wget https://www.yourkit.com/download/docker/YourKit-JavaProfiler-2024.3-docker.zip -P /tmp/ && \
-  unzip /tmp/YourKit-JavaProfiler-2024.3-docker.zip -d /usr/local && \
-  rm /tmp/YourKit-JavaProfiler-2024.3-docker.zip
+COPY ./YourKit-JavaProfiler-2024.3-docker.zip /tmp/
 
-ENV         LC_ALL=en_US.UTF-8
-ENV         LANG=en_US.UTF-8
-ENV         LANGUAGE=en_US.UTF-8
+RUN unzip /tmp/YourKit-JavaProfiler-2024.3-docker.zip -d /usr/local && rm /tmp/YourKit-JavaProfiler-2024.3-docker.zip
 
-USER        container
-ENV         USER=container HOME=/home/container
-WORKDIR     /home/container
+ENV LC_ALL=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US.UTF-8
 
-COPY        ./entrypoint.sh /entrypoint.sh
-CMD         [ "/bin/bash", "/entrypoint.sh" ]
+USER container
+ENV USER=container HOME=/home/container
+WORKDIR /home/container
+
+COPY ./entrypoint.sh /entrypoint.sh
+CMD [ "/bin/bash", "/entrypoint.sh" ]
